@@ -28,11 +28,17 @@ const Content = ({ parts }) => {
         <>
             {parts.map((element, index) => {
                 return (
-                    <p key={index}>{element[0]} {element[1]}</p>
+                    <Part key={index} name={element[0]} exercise={ element[1]} />
                 );
             })
             }
         </>
+    )
+}
+
+const Part = ({ name, exercise}) => {
+    return (
+        <p>{name} {exercise}</p>
     )
 }
 
