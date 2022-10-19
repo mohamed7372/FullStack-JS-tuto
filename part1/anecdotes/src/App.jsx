@@ -10,16 +10,24 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
+  
+  const [vote, setVote] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4:0, 5:0, 6:0})
    
   const [selected, setSelected] = useState(0)
 
-  const handleRandomSelect = () => {
-    setSelected(randomInRange(0, anecdotes.length));
-    return null;
+  const handleRandomSelect = () => setSelected(randomInRange(0, anecdotes.length));
+
+  const handleVote = () => {
+    const copy = { ...vote };
+    copy[selected] += 1;
+    setVote(copy);
   }
 
   function randomInRange(min, max) {  
-    var nbr = Math.floor(Math.random() * (max - min) + min); 
+    var nbr;
+    do {
+      nbr = Math.floor(Math.random() * (max - min) + min);
+    } while (nbr == selected);
     console.log(nbr);
     return nbr;
   } 
@@ -27,9 +35,13 @@ const App = () => {
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <button onClick={handleRandomSelect}>next anecdote</button>
+      <p>has {vote[selected]} votes</p>
+      <Button click={handleVote} name='vote'/>
+      <Button click={handleRandomSelect} name='next anecdote' />
     </div>
   )
 }
+
+const Button = ({ click, name }) => <button onClick={click}>{name}</button>
 
 export default App
