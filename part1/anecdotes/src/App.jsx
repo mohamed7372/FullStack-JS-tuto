@@ -12,8 +12,8 @@ const App = () => {
   ]
   
   const [vote, setVote] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4:0, 5:0, 6:0})
-   
   const [selected, setSelected] = useState(0)
+  const [mostVote, setMostVote] = useState(0)
 
   const handleRandomSelect = () => setSelected(randomInRange(0, anecdotes.length));
 
@@ -21,27 +21,46 @@ const App = () => {
     const copy = { ...vote };
     copy[selected] += 1;
     setVote(copy);
+    
+    // get the most vote
+    let max = mostVote;
+    let obj = Object.keys(copy);
+    obj.forEach(key => {
+      if (copy[key] > copy[max])
+        max = key;
+    });
+    setMostVote(max);
   }
 
   function randomInRange(min, max) {  
     var nbr;
     do {
       nbr = Math.floor(Math.random() * (max - min) + min);
-    } while (nbr == selected);
+    } while (nbr === selected);
     console.log(nbr);
     return nbr;
   } 
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {vote[selected]} votes</p>
+      <Section title='Anecdote of the day' selected={selected} anecdotes={anecdotes} vote={vote}/>
       <Button click={handleVote} name='vote'/>
       <Button click={handleRandomSelect} name='next anecdote' />
+      <Section title='Anecdote with most votes' selected={mostVote} anecdotes={anecdotes} vote={vote}/>
     </div>
   )
 }
 
 const Button = ({ click, name }) => <button onClick={click}>{name}</button>
+
+const Section = ({ title, selected, anecdotes, vote }) => { 
+  return (
+    <>
+      <h1>{title}</h1>
+      <p>{anecdotes[selected]}</p>
+      <p>has {vote[selected]} votes</p>
+    </>
+  );
+}
 
 export default App
