@@ -6,8 +6,6 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  
-
   return (
     <div>
       <h1>Give feedback</h1>
@@ -18,23 +16,25 @@ const App = () => {
       {good + bad + neutral == 0 ?
         (<p>No feedback given</p>)
         :
-        (
-          <div>
-            <Statistics title={'good'} stat={good}/>
-            <Statistics title={'neutral'} stat={neutral}/>
-            <Statistics title={'bad'} stat={bad}/>
-            <Statistics title={'all'} stat={good + neutral + bad}/>
-            <Statistics title={'average'} stat={(good + bad*-1) / (good + neutral + bad)}/>
-            <Statistics title={'positive'} stat={(good * 100) / (good + neutral + bad) + ' %'} />
-          </div>    
-        )
+        (<Statistics good={good} neutral={neutral} bad={bad}/>)
       }
     </div>
   )
 }
 
-const Statistics = (props) => {
-  return(<p>{props.title} {props.stat}</p>)
+const Statistics = ({good, neutral, bad}) => {
+  return (
+    <>
+      <StatisticLine text={'good'} value={good}/>
+      <StatisticLine text={'neutral'} value={neutral}/>
+      <StatisticLine text={'bad'} value={bad}/>
+      <StatisticLine text={'all'} value={good + neutral + bad}/>
+      <StatisticLine text={'average'} value={(good + bad*-1) / (good + neutral + bad)}/>
+      <StatisticLine text={'positive'} value={(good * 100) / (good + neutral + bad) + ' %'} />
+    </>
+  )
 }
+
+const StatisticLine = props => <p>{props.text} {props.value}</p>
 
 export default App
