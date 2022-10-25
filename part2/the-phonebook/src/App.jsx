@@ -2,25 +2,28 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handleNewPhone = event => {
     event.preventDefault();
     
     // check if this phone name does not exist
     let find_idx = persons.findIndex(person => person.name === newName)
-    console.log(find_idx);
+    
     if (find_idx !== -1) 
       alert(`${newName} is already added to phonebook`)
     else {
       const newNameObject = {
         name: newName,
+        number: newNumber,
       }
       setPersons(persons.concat(newNameObject));
     }
     setNewName('');
+    setNewNumber('');
   }
 
   return (
@@ -29,6 +32,9 @@ const App = () => {
       <form onSubmit={handleNewPhone}>
         <div>
           name: <input value={newName} onChange={(event) => setNewName(event.target.value)}/>
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={(event) => setNewNumber(event.target.value)}/>
         </div>
         <div>
           <button type="submit">add</button>
@@ -42,4 +48,10 @@ const App = () => {
 
 export default App
 
-const Number = ({person}) => <>{person.name}<br/></>
+const Number = ({ person }) => {
+  return (
+    <>
+      {person.name} { person.number}<br />
+    </>
+  );
+}
