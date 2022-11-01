@@ -19,9 +19,9 @@ function App() {
   const show = finds.length === 1 ?
     (<div>
       <h1>{finds[0].name.common}</h1>
-      <span>{finds[0].capital}</span>
+      <span>capital {finds[0].capital}</span>
       <br />
-      <span>{finds[0].area}</span>
+      <span>area {finds[0].area}</span>
       <h3>languages:</h3>
       <ul>
         {
@@ -34,7 +34,12 @@ function App() {
     (finds.length > 10 ? 
       (<span>Too many matches, specify another filter<br /></span>)
       :
-      (finds.map(country => <span key={country.name.common}>{country.name.common}<br/></span>))
+      (finds.map(country =>
+        <span key={country.name.common}>
+          {country.name.common}
+          <br />
+        </span>)
+      )
     )
   
   return (
