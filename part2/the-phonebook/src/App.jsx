@@ -6,10 +6,8 @@ import phoneService from './services/phones'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
-  
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  
   const [search, setSearch] = useState('')
 
   useEffect(() => {
