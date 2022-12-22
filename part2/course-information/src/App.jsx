@@ -1,5 +1,4 @@
-import Course from "./components/Course";
-
+import Course from "./components/Course"
 const App = () => {
     const courses = [
         {
@@ -17,14 +16,14 @@ const App = () => {
                     id: 2
                 },
                 {
-                    name: 'State of a component',
-                    exercises: 14,
-                    id: 3
+                name: 'State of a component',
+                exercises: 14,
+                id: 3
                 },
                 {
-                    name: 'Redux',
-                    exercises: 11,
-                    id: 4
+                name: 'Redux',
+                exercises: 11,
+                id: 4
                 }
             ]
         }, 
@@ -45,12 +44,13 @@ const App = () => {
             ]
         }
     ]
-    
+
     return (
-        <>
-            {courses.map(course => <Course key={course.id} course={course} />)}
-        </>
+        <div>
+            <h1>Web development curriculum</h1>
+            {courses.map(course => <Course key={course.id} course={course}/>)}
+        </div>
     )
 }
 
-export default App;
+export default App

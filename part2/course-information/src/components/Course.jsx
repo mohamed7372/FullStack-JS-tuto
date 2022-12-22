@@ -11,7 +11,7 @@ export default Course;
 
 const Header = ({course}) => {
     return (
-        <h1>{ course }</h1>
+        <h2>{ course }</h2>
     );
 }
 
@@ -23,8 +23,7 @@ const Content = ({ parts }) => {
             {parts.map(element => {
                 return (
                     <Part key={element['id']} name={element['name']} exercise={ element['exercises']} />
-                );
-            })
+                );})
             }
             <p><b>total of {total} exercises</b></p>
         </>
