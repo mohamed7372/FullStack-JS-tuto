@@ -16,4 +16,5 @@ const delete_phone = (id) => {
     return request.then(response => response.data)
 }
 
+
 export default {getAll, create, delete_phone}
