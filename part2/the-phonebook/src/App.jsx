@@ -59,6 +59,17 @@ const App = () => {
       })
   }
 
+  const removePerson = (id, person_name) => {
+    console.log('delete', id);
+    if (window.confirm(`Delete ${person_name} ?`)) {
+      personService
+        .remove(id)
+        .then(returnPerson => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   const personsSearch = search === '' 
     ? persons
     : persons.filter(person => person.name.includes(search))
@@ -74,7 +85,7 @@ const App = () => {
         newNumber={newNumber} handleChangeNumber={handleChangeNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={personsSearch}/>
+      <Persons persons={personsSearch} handleDeletePerson={removePerson} />
     </div>
   )
 }

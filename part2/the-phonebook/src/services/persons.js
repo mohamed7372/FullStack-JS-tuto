@@ -11,10 +11,9 @@ const create = (newObject) => {
     return request.then(response => response.data)
 }
 
-const delete_phone = (id) => {
-    const request = axios.delete(url, id)
+const remove = (id) => {
+    const request = axios.delete(`${url}/${id}`)
     return request.then(response => response.data)
 }
 
-
-export default {getAll, create, delete_phone}
+export default {getAll, create, remove}
