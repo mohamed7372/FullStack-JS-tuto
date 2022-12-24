@@ -10,12 +10,15 @@ function App() {
   const [view, setView] = useState({})
   const[show, setShow] = useState(false)
 
-  useEffect(() => {
-    axios.get('https://restcountries.com/v3.1/all')
+  const hook = () => {
+    axios
+      .get('https://restcountries.com/v3.1/all')
       .then(response => {
         setCountries(response.data);
       })
-  }, [])
+  }
+
+  useEffect(hook, [])
 
   const finds = countries
     .filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()))
