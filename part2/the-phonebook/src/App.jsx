@@ -4,12 +4,14 @@ import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [message, setMessage] = useState(null)
 
   const hook = () => {
     personService
@@ -36,7 +38,7 @@ const App = () => {
   const addNewPerson = event => {
     event.preventDefault()
     const person = persons.find(p => p.name === newName)
-
+    // update phone number
     if (person !== undefined) {
       const personObject = { ...person, number: newNumber }
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
@@ -49,6 +51,7 @@ const App = () => {
           })
       }
     }
+    // add a new phone number
     else {
       const personObject = {
         name: newName,
@@ -59,9 +62,13 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnPerson => {
+          setMessage(`Added ${returnPerson.name}`)
           setPersons(persons.concat(personObject))
           setNewName('')
           setNewNumber('')
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000);
         })
     }
   }
@@ -84,6 +91,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}/>
       <Filter search={search} handleSearch={handleSearch} />
       <h2>add a new</h2>
       <PersonForm
