@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState(null)
+  const [type, setType] = useState('success')
 
   const hook = () => {
     personService
@@ -62,6 +63,7 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnPerson => {
+          setType('success')
           setMessage(`Added ${returnPerson.name}`)
           setPersons(persons.concat(personObject))
           setNewName('')
@@ -81,6 +83,14 @@ const App = () => {
         .then(returnPerson => {
           setPersons(persons.filter(person => person.id !== id))
         })
+        .catch(error => {
+          setType('error')
+          setMessage(`Information of ${person_name} has already removed from server`)
+          setPersons(persons.filter(person => person.id !== id))
+          setTimeout(() => {
+            setMessage(null)
+          }, 3000);
+        })
     }
   }
 
@@ -91,7 +101,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message}/>
+      <Notification message={message} type={type} />
       <Filter search={search} handleSearch={handleSearch} />
       <h2>add a new</h2>
       <PersonForm
