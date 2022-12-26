@@ -56,14 +56,27 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    const person = {
+    if (!body.name || !body.number) {
+        return response
+            .status(400)
+            .json({error: 'The name or number is missing'})
+    }
+
+    const person = persons.find(p => p.name === body.name)
+    if (!person){
+        return response
+            .status(400)
+            .json({error: 'Name must be unique'})
+    }
+
+    const new_person = {
         id: generateId(),
         name: body.name,
         number: body.number
     }
 
-    persons = persons.concat(person)
-    response.json(person)
+    persons = persons.concat(new_person)
+    response.json(new_person)
 })
 
 const generateId = () => {
