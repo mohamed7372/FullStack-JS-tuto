@@ -1,7 +1,7 @@
 const express = require('express')
 
 const app = express()
-// app.use(express.json())
+app.use(express.json())
 
 let persons = [
     { 
@@ -52,6 +52,24 @@ app.delete('/api/persons/:id', (request, response) => {
 
     response.send(204).end()
 })
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+
+    const person = {
+        id: generateId(),
+        name: body.name,
+        number: body.number
+    }
+
+    persons = persons.concat(person)
+    response.json(person)
+})
+
+const generateId = () => {
+    let id = Math.max(...persons.map(person => person.id))
+    return id + 1
+}
 
 const PORT = 3001
 app.listen(PORT, () => {
