@@ -11,6 +11,7 @@
   "author": "John Doe <benrabahmohamed530@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
   },
   "dependencies": {

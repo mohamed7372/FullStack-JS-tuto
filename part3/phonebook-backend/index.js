@@ -1,7 +1,10 @@
 const express = require('express')
+const morgan = require('morgan')
 
 const app = express()
+
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons = [
     { 
@@ -62,7 +65,7 @@ app.post('/api/persons', (request, response) => {
             .json({error: 'The name or number is missing'})
     }
 
-    const person = persons.find(p => p.name === body.name)
+    const person = persons.filter(p => p.name === body.name)
     if (!person){
         return response
             .status(400)
