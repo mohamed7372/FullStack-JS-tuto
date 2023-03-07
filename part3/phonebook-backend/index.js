@@ -51,8 +51,24 @@ const generateId = (min, max) =>
 
 
 app.post('/api/persons', (request, response) => {
-    const person = request.body
-    person.id = generateId(0, 1000)
+    const body = request.body
+
+    if (!body || !body.name || !body.number)
+        return response.status(400).json({
+            error: 'missing values'
+        })
+    
+    const per = persons.find(person => person.name === body.name)
+    if (per)
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+        
+    const person = {
+        id: generateId(0, 1000),
+        name: body.name,
+        number: body.number
+    }
 
     persons = persons.concat(person)
     response.json(person)
