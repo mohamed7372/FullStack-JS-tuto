@@ -15,53 +15,43 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const per = persons.find(person => person.id === id)
-    if(per)
-        response.json(per)
-    else
-        response.status(404).end()
+    const id = request.params.id
+
+    Person.find({_id:id})
+        .then(persons => {
+            response.json(persons)
+        })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    persons = persons.filter(person => person.id !== id)
-
-    response.status(204).end()
+    const id = request.params.id
+    
+    Person.deleteOne({_id:id})
+        .then(persons => {
+            response.json(persons)
+        })
 })
-
-const generateId = (min, max) =>
-    Math.floor(Math.random() * (max - min) + min)
-
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    if (!body || !body.name || !body.number)
-        return response.status(400).json({
-            error: 'missing values'
-        })
-    
-    const per = persons.find(person => person.name === body.name)
-    if (per)
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-        
-    const person = {
-        id: generateId(0, 1000),
+    const newPerson = new Person({
         name: body.name,
         number: body.number
-    }
+    })
 
-    persons = persons.concat(person)
-    response.json(person)
+    newPerson.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
 })
 
 app.get('/info', (request, response) => {
-    response.send(
-        `<p>Phonebook has info for ${persons.length} people</p>${Date()}<p></p>`
-    )
+    Person.count({})
+        .then(numOfDocs => {
+            response.send(
+                `<p>Phonebook has info for ${numOfDocs} people</p>${Date()}<p></p>`
+                )
+        })
 })
 
 const PORT = process.env.PORT
