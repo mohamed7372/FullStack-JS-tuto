@@ -15,20 +15,16 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-
-    Person.find({_id:id})
+    Person.findById(request.params.id)
         .then(persons => {
             response.json(persons)
         })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    
-    Person.deleteOne({_id:id})
-        .then(persons => {
-            response.json(persons)
+    Person.findByIdAndRemove(request.params.id)
+        .then(result => {
+            response.status(204).end()
         })
 })
 
