@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const express = require('express')
 const app = express()
 const cors =require('cors')
@@ -28,7 +29,7 @@ const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
-// app.use(cors)
+app.use(cors())
 app.use(express.json())
 app.use(requestLogger)
 app.use(express.static('build'))
@@ -59,13 +60,13 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndRemove(request.params.id)
-        .then(result => {
+        .then(() => {
             response.status(204).end()
         })
         .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response, next) => {
+app.post('/api/persons', (request, response) => {
     const body = request.body
     const newPerson = new Person({
         name: body.name,

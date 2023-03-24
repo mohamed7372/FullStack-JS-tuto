@@ -20,6 +20,9 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
+      .catch(error => {
+        console.log(error.response.data.error);
+      })
   }
 
   useEffect(hook, [])
